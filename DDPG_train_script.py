@@ -65,6 +65,8 @@ for i_episode in range(episode):
                 DDPG_agent.learn()
                 print('episode =', i_episode,'iteration =', i_iteration,'system_bitrate =', system_bitrate)
             RU_mapper[max_key][i_step] = 1
+        dataframe=pd.DataFrame({'bitrate':system_bitrate_history})
+        dataframe.to_csv("./result/bitrate_single_wf_seed_"+str(i_episode)+".csv", index=False,sep=',')
     # print('episode =',i_episode,'average result =',np.mean(system_bitrate_history))
     # print('general result =',general_system_bitrate)
     system_bitrate_history_ave.append(np.mean(system_bitrate_history))
