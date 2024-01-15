@@ -68,6 +68,6 @@ for i_episode in range(episode):
     # print('episode =',i_episode,'average result =',np.mean(system_bitrate_history))
     # print('general result =',general_system_bitrate)
     system_bitrate_history_ave.append(np.mean(system_bitrate_history))
-    dataframe=pd.DataFrame({'bitrate':system_bitrate_history})
+    dataframe=pd.DataFrame({'bitrate':system_bitrate_history_ave})
     dataframe.to_csv("./result/bitrate_single_wf_seed_0-19.csv", index=False,sep=',')
     
