@@ -63,7 +63,7 @@ for i_loop in range(10):
                     reward = system_bitrate/(1e+6)
                     DDPG_agent.remember(RU_mapper.reshape(1,numAPuser,numRU), action_map.reshape(1,numAPuser,numRU), reward, RU_mapper_next.reshape(1,numAPuser,numRU), done=True)
                     DDPG_agent.learn()
-                    print('episode =', i_episode,'iteration =', i_iteration,'system_bitrate =', system_bitrate)
+                    print('loop =', i_loop,'episode =', i_episode,'iteration =', i_iteration,'system_bitrate =', system_bitrate)
                 RU_mapper[max_key][i_step] = 1
             dataframe=pd.DataFrame({'bitrate':system_bitrate_history})
             dataframe.to_csv("./result/bitrate_single_wf_seed_"+str(i_loop)+"_"+str(i_episode)+".csv", index=False,sep=',')
