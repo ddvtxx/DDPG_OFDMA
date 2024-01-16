@@ -67,8 +67,8 @@ for i_loop in range(10):
                     system_bitrate = test_env.calculate_4_cells(final_mapper)
                     system_bitrate_history.append(system_bitrate)
                     key_value = system_bitrate-general_system_bitrate
-                    if key_value>0:
-                        reward = -1
+                    if key_value > 0:
+                        reward = 0
                     else:
                         reward = key_value / general_system_bitrate
                     # reward = (system_bitrate-general_system_bitrate)/(1e+6)
