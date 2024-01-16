@@ -39,6 +39,12 @@ for i_loop in range(10):
         x,y = x_init,y_init
         userinfo = test_env.senario_user_info(x,y)
         channel_gain_obs = test_env.channel_gain_calculate()
+
+        test_env.change_RU_mode(4)
+        general_mapper = test_env.n_AP_RU_mapper()
+        general_system_bitrate = test_env.calculate_4_cells(general_mapper)
+
+        test_env.change_RU_mode(3)
         AP123_RU_mapper = test_env.n_AP_RU_mapper()
         for i_iteration in range(max_iteration):
             RU_mapper = np.zeros((numAPuser, numRU))
@@ -60,15 +66,13 @@ for i_loop in range(10):
                     final_mapper = np.vstack((AP123_RU_mapper, RU_mapper_next.reshape(1,numAPuser,numRU)))
                     system_bitrate = test_env.calculate_4_cells(final_mapper)
                     system_bitrate_history.append(system_bitrate)
-                    reward = system_bitrate/(1e+6)
+                    reward = (system_bitrate-general_system_bitrate)/(1e+6)
                     DDPG_agent.remember(RU_mapper.reshape(1,numAPuser,numRU), action_map.reshape(1,numAPuser,numRU), reward, RU_mapper_next.reshape(1,numAPuser,numRU), done=True)
                     DDPG_agent.learn()
                     print('loop =', i_loop,'episode =', i_episode,'iteration =', i_iteration,'system_bitrate =', system_bitrate)
                 RU_mapper[max_key][i_step] = 1
             dataframe=pd.DataFrame({'bitrate':system_bitrate_history})
             dataframe.to_csv("./result/bitrate_single_wf_seed_"+str(i_loop)+"_"+str(i_episode)+".csv", index=False,sep=',')
-        # print('episode =',i_episode,'average result =',np.mean(system_bitrate_history))
-        # print('general result =',general_system_bitrate)
         system_bitrate_history_ave.append(np.mean(system_bitrate_history))
         dataframe=pd.DataFrame({'bitrate':system_bitrate_history_ave})
         dataframe.to_csv("./result/bitrate_single_wf_seed_0-19_"+str(i_loop)+".csv", index=False,sep=',')
