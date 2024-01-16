@@ -66,7 +66,12 @@ for i_loop in range(10):
                     final_mapper = np.vstack((AP123_RU_mapper, RU_mapper_next.reshape(1,numAPuser,numRU)))
                     system_bitrate = test_env.calculate_4_cells(final_mapper)
                     system_bitrate_history.append(system_bitrate)
-                    reward = (system_bitrate-general_system_bitrate)/(1e+6)
+                    key_value = system_bitrate-general_system_bitrate
+                    if key_value>0:
+                        reward = -1
+                    else:
+                        reward = key_value/general_system_bitrate
+                    # reward = (system_bitrate-general_system_bitrate)/(1e+6)
                     DDPG_agent.remember(RU_mapper.reshape(1,numAPuser,numRU), action_map.reshape(1,numAPuser,numRU), reward, RU_mapper_next.reshape(1,numAPuser,numRU), done=True)
                     DDPG_agent.learn()
                     print('loop =', i_loop,'episode =', i_episode,'iteration =', i_iteration,'system_bitrate =', system_bitrate)
