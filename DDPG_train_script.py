@@ -70,7 +70,7 @@ for i_loop in range(10):
                     if key_value>0:
                         reward = -1
                     else:
-                        reward = key_value/general_system_bitrate
+                        reward = key_value / general_system_bitrate
                     # reward = (system_bitrate-general_system_bitrate)/(1e+6)
                     DDPG_agent.remember(RU_mapper.reshape(1,numAPuser,numRU), action_map.reshape(1,numAPuser,numRU), reward, RU_mapper_next.reshape(1,numAPuser,numRU), done=True)
                     DDPG_agent.learn()
