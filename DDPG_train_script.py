@@ -59,7 +59,7 @@ for i_loop in range(10):
                 RU_mapper_next[max_key][i_step] = 1
                 action_map = np.zeros((numAPuser, numRU))
                 action_map[max_key][i_step] = 1
-                if i_step != numRU-1:
+                if i_step != numRU-1 and i_iteration < 1000:
                     DDPG_agent.remember(RU_mapper.reshape(1,numAPuser,numRU), action_map.reshape(1,numAPuser,numRU), 0, RU_mapper_next.reshape(1,numAPuser,numRU), done=False)
                     DDPG_agent.learn()
                 else:
@@ -72,8 +72,9 @@ for i_loop in range(10):
                     else:
                         reward = key_value / general_system_bitrate
                     # reward = (system_bitrate-general_system_bitrate)/(1e+6)
-                    DDPG_agent.remember(RU_mapper.reshape(1,numAPuser,numRU), action_map.reshape(1,numAPuser,numRU), reward, RU_mapper_next.reshape(1,numAPuser,numRU), done=True)
-                    DDPG_agent.learn()
+                    if i_iteration < 1000:
+                        DDPG_agent.remember(RU_mapper.reshape(1,numAPuser,numRU), action_map.reshape(1,numAPuser,numRU), reward, RU_mapper_next.reshape(1,numAPuser,numRU), done=True)
+                        DDPG_agent.learn()
                     print('loop =', i_loop,'episode =', i_episode,'iteration =', i_iteration,'system_bitrate =', system_bitrate)
                 RU_mapper[max_key][i_step] = 1
             dataframe=pd.DataFrame({'bitrate':system_bitrate_history})
