@@ -12,13 +12,13 @@ from DDPG_agent import DDPG
 import random
 print(T.__version__)
 
-for i_loop in range(1):
+for i_loop in range(10):
     numAPuser = 5
     numRU = 8
     numSenario = 1
     linkmode = 'uplink'
     ru_mode = 3
-    episode = 20
+    episode = 5
     max_iteration = 2000
     test_env = env.environment_base(numAPuser,numRU,linkmode,ru_mode)
 
