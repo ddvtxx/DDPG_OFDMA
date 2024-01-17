@@ -92,6 +92,8 @@ for i_loop in range(1):
                                             done = False
                                             )
                     RU_mapper = RU_mapper + action_array[i_step]
+            if i_iteration % 200 == 0:
+                DDPG_agent.learn()
             print('loop =', i_loop,'episode =', i_episode,'iteration =', i_iteration,'system_bitrate =', system_bitrate)
             dataframe=pd.DataFrame({'bitrate':system_bitrate_history})
             dataframe.to_csv("./result/bitrate_single_wf_seed_"+str(i_loop)+"_"+str(i_episode)+".csv", index=False,sep=',')
